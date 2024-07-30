@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+// src/BackOfficePanel.js
+import React, { useState } from 'react';
+import Login from './login';
+import Users from './users';
+import TaskLists from './taskLists';
+import Tasks from './tasks';
 
-function App() {
+const BackOfficePanel = () => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [activeMenu, setActiveMenu] = useState('users');
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      {!isLoggedIn ? (
+        <Login onLogin={handleLogin} />
+      ) : (
+        <div>
+          <nav>
+            <button onClick={() => setActiveMenu('users')}>Users</button>
+            <button onClick={() => setActiveMenu('taskLists')}>Task Lists</button>
+            <button onClick={() => setActiveMenu('tasks')}>Tasks</button>
+          </nav>
+          {activeMenu === 'users' && <Users />}
+          {activeMenu === 'taskLists' && <TaskLists />}
+          {activeMenu === 'tasks' && <Tasks />}
+        </div>
+      )}
     </div>
   );
-}
+};
 
-export default App;
+export default BackOfficePanel;
